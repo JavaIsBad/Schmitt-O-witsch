@@ -67,5 +67,6 @@ double calculerTemps(timer *tim);
 int comparerDeuxMarkov(Markovien *mark1, Markovien *mark2);
 int egaliteNombresque(double un, double deux, double error);
 void moyenneMinable(Markovien *mark, int ligne int colonne, double nbr);
+void moyenneStyle(Markovien *mark, int ligne, int colonne, double nbr);
 
 #endif //__CHAINEDESCHMITTOWITSCH_H

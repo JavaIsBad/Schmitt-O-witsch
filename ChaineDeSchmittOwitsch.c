@@ -28,8 +28,28 @@ int comparerDeuxMarkov(Markovien *mark1, Markovien *mark2){ //1 si tous les nomb
     return 1;
 }
 
-void moyenneMinable(Markovien *mark, int ligne int colonne, double nbr){
+void moyenneMinable(Markovien *mark, int ligne, int colonne, double nbr){
     mark->marko[ligne][colonne].nbr = (mark->marko[ligne][colonne].nbr + nbr)/2.;
+}
+
+void moyenneStyle(Markovien *mark, int ligne, int colonne, double nbr){
+    int ccpt = mark->marko[ligne][colonne]->cpt;
+    int nnbr = mark->marko[ligne][colonne]->nbr;
+    if (ccpt == 0){
+        mark->marko[ligne][colonne]->nbr=nbr;
+    }
+    else{
+        mark->marko[ligne][colonne]->nbr=   nnbr * (double)(ccpt/ccpt+1) + nbr * (1./ccpt+1)
+        //Qq exemples :
+        /* 1 => Moyenne 1/1 = 1                                           JUSTE
+            rajoute 2 => moyenne = 1 * 1/2 + 2 * 1/2 => 3/2               JUSTE
+            rajoute 3 => moyenne = 3/2 * 2/3 + 3 * 1/3 => 1+1 = 2         JUSTE
+            rajoute 4 => moyenne = 2 * 3/4 + 4 * 1/4 = 6/4 + 4/4 = 10/4   JUSTE
+            On va supposer que c'est juste a tous les rangs, j'ai un peu la flemme de nous faire une petite d"émonstration a la récurrence :p
+            J'ai trouver ça TOUT SEUL! JE SUIS CONTENT!
+            */
+    }
+    mark->marko[ligne][colonne]->cpt++;
 }
 
 int egaliteNombresque(double un, double deux, double error){
@@ -57,7 +77,7 @@ int main (void){
             actuel=getchar();
             recupFin(timm);
             temps=calculerTemps(timm);
-            moyenneMinable(&mark,precedent,actuel,temps); //grace au énum
+            moyenneStyle(&mark,precedent,actuel,temps); //grace au énum
             recupDebut(timm);
         }
         cpt++;
