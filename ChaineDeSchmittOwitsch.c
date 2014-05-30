@@ -21,11 +21,19 @@ int comparerDeuxMarkov(Markovien *mark1, Markovien *mark2){ //1 si tous les nomb
     int i,j;
     for (i=0; i<27; i++){
         for (j=0; j<27; j++){
-            if (!(egaliteNombresque(mark1->marko[i][j].nbr, mark2->marko[i][j].nbr, ERROR_MAX))
+            if (!(egaliteNombresque(mark1->marko[i][j].nbr, mark2->marko[i][j].nbr, ERROR_MAX) && !(mark1->marko[i][j].nbr==-1 || mark2->marko[i][j].nbr==-1 )))
             return 0;
         }
     }
     return 1;
+}
+
+void __init(Markovien *mark){
+     for (i=0; i<27; i++){
+        for (j=0; j<27; j++){
+            mark->marko[i][j].nbr==-1;
+        }
+     }
 }
 
 void moyenneMinable(Markovien *mark, int ligne, int colonne, double nbr){
@@ -59,6 +67,8 @@ int egaliteNombresque(double un, double deux, double error){
 int main (void){
     Markovien mark;
     Markovien mark2;
+    __init(&mark)
+    __init(&mark2)
     timer *timm = malloc(sizeof(timer));
 
     int precedent=-1, actuel=-1;
@@ -77,7 +87,13 @@ int main (void){
             actuel=getchar();
             recupFin(timm);
             temps=calculerTemps(timm);
-            moyenneStyle(&mark,precedent,actuel,temps); //grace au énum
+            if (actuel = ' ')
+                moyenneStyle(&mark, precedent, SPACE, temps);
+            else if (precedent = ' ')
+                moyenneStyle(&mark, SPACE, actuel, temps);
+            else
+                moyenneStyle(&mark,precedent,actuel,temps); //grace au énum
+
             recupDebut(timm);
         }
         cpt++;
@@ -102,7 +118,12 @@ int main (void){
             actuel=getchar();
             recupFin(timm);
             temps=calculerTemps(timm);
-            moyenneMinable(&mark2,precedent,actuel,temps);
+            if (actuel = ' ')
+                moyenneStyle(&mark2, precedent, SPACE, temps);
+            else if (precedent = ' ')
+                moyenneStyle(&mark2, SPACE, actuel, temps);
+            else
+                moyenneStyle(&mark2,precedent,actuel,temps); //grace au énum
             recupDebut(timm);
         }
         cpt++;
