@@ -4,6 +4,10 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <ncurses/curses.h>
+#define NBLETTRE 28
 
 enum {
 a='a',b='b',c='c',d='d',e='e',f='f',g='g',
@@ -11,10 +15,11 @@ h='h',i='i',j='j',k='k',l='l',m='m',n='n',
 o='o',p='p',q='q',r='r',s='s',t='t',u='u',
 v='v',w='w',x='x',y='y',z='z',
 SPACE=32,BACKSPACE=8,
-}
+};
+
 typedef struct {
-    clock_t *debut;
-    clock_t *fin;
+    struct timeval debut;
+    struct timeval fin;
     double tempsTotal;
 } timer;
 
@@ -24,7 +29,7 @@ typedef struct {
 } cellule;
 
 typedef struct {
-    cellule [28][28] marko;
+    cellule  marko[NBLETTRE][NBLETTRE];
 } Markovien;
 
 
@@ -62,11 +67,12 @@ z
 */
 
 void recupDebut(timer *tim);
+void initMarkovienZero(Markovien *m);
 void recupFin(timer *tim);
 double calculerTemps(timer *tim);
 int comparerDeuxMarkov(Markovien *mark1, Markovien *mark2);
 int egaliteNombresque(double un, double deux, double error);
-void moyenneMinable(Markovien *mark, int ligne int colonne, double nbr);
 void moyenneStyle(Markovien *mark, int ligne, int colonne, double nbr);
+void printM(Markovien *m);
 
 #endif //__CHAINEDESCHMITTOWITSCH_H
